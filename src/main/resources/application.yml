@@ -1,0 +1,53 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: wdmp-server
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/wdmp?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowMultiQueries=true
+    username: root
+    password: YOUR_DB_PASSWORD
+  jackson:
+    time-zone: Asia/Shanghai
+    date-format: yyyy-MM-dd HH:mm:ss
+    default-property-inclusion: non_null
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  cache:
+    type: caffeine
+    caffeine:
+      spec: maximumSize=500,expireAfterWrite=30m
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+jwt:
+  secret: wdmp-industrial-internet-platform-jwt-secret-key-2024
+  expire: 28800
+  header: Authorization
+  prefix: Bearer
+
+wdmp:
+  file:
+    upload-path: ./uploads
+    allowed-types: jpg,jpeg,png,gif,pdf,doc,docx,xls,xlsx,txt,zip,rar
+
+logging:
+  level:
+    com.wmmp: debug
+    org.springframework.security: info
